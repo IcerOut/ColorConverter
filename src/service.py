@@ -205,3 +205,15 @@ def random_color() -> str:
     else:
         return f'{str(random.randrange(0, 360))}, {str(random.randrange(0, 100))}%,' \
                f' {str(random.randrange(0, 100))}%'
+
+
+def complementary_color(hsl: str) -> str:
+    """
+    Returns the complementary color of the given HSL one
+    :param hsl: A HSL string (Ex: '214, 30%, 55%')
+    :return: A HSL string (Ex: '34, 30%, 55%')
+    """
+    pieces = hsl.split(', ')
+    hue = int(pieces[0])
+    hue = (hue + 180) % 360  # The color 180 degrees apart is the complement
+    return f'{str(hue)}, {pieces[1]}, {pieces[2]}'

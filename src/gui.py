@@ -10,7 +10,7 @@ from tkinter import messagebox
 from src.exceptions import InvalidColorError
 from src.globals import APP_TITLE, DISCORD_DARK, DISCORD_DARK_HOVER, DISCORD_LIGHT, \
     DISCORD_LIGHT_FADED, DISCORD_TEXTBOX, EMPTY_CONVERSION
-from src.service import convert, random_color
+from src.service import complementary_color, convert, random_color
 
 
 class GUI:
@@ -28,7 +28,7 @@ class GUI:
 
         #
         # Minimum size config
-        for x in range(5):
+        for x in range(6):
             self.master.grid_rowconfigure(x, minsize=100, weight=1)
 
         self.master.grid_columnconfigure(0, minsize=110, weight=1)
@@ -98,13 +98,31 @@ class GUI:
         self.color_display.grid(row=0, rowspan=6, column=2, sticky='nsew')
 
         #
-        # Action buttons
-        self.random_color_button = tk.Button(self.master, font=('Verdana', 24),
+        # Action Buttons Canvas
+        self.buttons_canvas = tk.Canvas(self.master, bg=DISCORD_DARK, highlightthickness=0)
+        self.buttons_canvas.grid(row=5, column=0, columnspan=2, sticky='nsew')
+        self.buttons_canvas.grid_rowconfigure(0, minsize=100, weight=1)
+        self.buttons_canvas.grid_columnconfigure(0, minsize=100, weight=1)
+        self.buttons_canvas.grid_columnconfigure(1, minsize=100, weight=1)
+
+        #
+        # Generate Random Color Button
+        self.random_color_button = tk.Button(self.buttons_canvas, font=('Verdana', 16),
                                              text='Generate random color',
                                              command=self._generate_random_color, bg=DISCORD_DARK,
                                              fg=DISCORD_LIGHT, activeforeground='white',
                                              activebackground=DISCORD_DARK_HOVER)
-        self.random_color_button.grid(row=5, column=1)
+        self.random_color_button.grid(row=0, column=0)
+
+        #
+        # Generate Complementary Color Button
+        self.complementary_color_button = tk.Button(self.buttons_canvas, font=('Verdana', 16),
+                                                    text='Generate complementary color',
+                                                    command=self._generate_complementary_color,
+                                                    bg=DISCORD_DARK, fg=DISCORD_LIGHT,
+                                                    activeforeground='white',
+                                                    activebackground=DISCORD_DARK_HOVER)
+        self.complementary_color_button.grid(row=0, column=1)
 
         # Initial call of the function. Afterwards it will keep calling itself every 0.5 seconds
         self.continuous_convert()
@@ -147,6 +165,15 @@ class GUI:
         Gets a random color and places it in the input entry box
         """
         self.input_value.set(random_color())
+
+    def _generate_complementary_color(self) -> None:
+        """
+        Gets the complementary color and places it in the input entry box
+        """
+        if self.hsl_value != EMPTY_CONVERSION:
+            self.input_value.set(complementary_color(self.hsl_value.get()))
+        else:
+            self._floating_notification("No color entered, cannot generate complement!", 'red')
 
     # <editor-fold desc="Event Handlers">
     def _on_entry_click(self, event):
