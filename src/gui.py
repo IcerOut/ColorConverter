@@ -9,6 +9,7 @@ import tkinter as tk
 from src.exceptions import InvalidColorError
 from src.globals import APP_TITLE, DISCORD_DARK, DISCORD_LIGHT, DISCORD_TEXTBOX
 from src.service import convert
+from src.service import convert, random_color
 
 
 class GUI:
@@ -82,10 +83,23 @@ class GUI:
                                     font=('Verdana', 24), width=15, fg=DISCORD_LIGHT,
                                     bg=DISCORD_TEXTBOX, justify='center')
         self.hsl_textbox.grid(row=4, column=1)
+        #
+        # Action buttons
+        self.random_color_button = tk.Button(self.master, font=('Verdana', 24),
+                                             text='Generate random color',
+                                             command=self._generate_random_color, bg=DISCORD_DARK,
+                                             fg=DISCORD_LIGHT, activeforeground='white',
+                                             activebackground=DISCORD_DARK_HOVER)
+        self.random_color_button.grid(row=5, column=1)
 
         # Initial call of the function. Afterwards it will keep calling itself every 0.5 seconds
         self.continuous_convert()
 
+    def _generate_random_color(self) -> None:
+        """
+        Gets a random color and places it in the input entry box
+        """
+        self.input_value.set(random_color())
     def continuous_convert(self) -> None:
         """
         Continuously monitors the input textbox and dropdown for changes (every 0.5 seconds)

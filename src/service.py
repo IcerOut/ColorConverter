@@ -4,6 +4,7 @@ ColorConverter
 @author: Lung Alin-Sebastian
 
 """
+import random
 import re
 from collections import namedtuple
 
@@ -146,7 +147,6 @@ def _identify_and_create_object(user_input: str) -> Color:
             raise InvalidColorError(
                     'This looks like a HSL color but the Saturation or Lightness values are not '
                     'percentages or in the 0-1 range!')
-        print(h_value, s_value, l_value)
         result.set_hsl((h_value / 360, s_value, l_value))
         print(f"\nDetected hsl: {user_input}")
         return result
@@ -174,3 +174,20 @@ def convert(user_input: str) -> ConvertedColor:
                            str(int(round(color.get_hsl()[2], 2) * 100)) + '%'])
 
     return ConvertedColor(name_value, hex_value, rgb_value, hsl_value)
+
+
+def random_color() -> str:
+    """
+    Returns a random color (in any of the 4 formats)
+    :return: A random color as a string
+    """
+    color_format = random.choice(('name', 'hex', 'rgb', 'hsl'))
+    if color_format == 'name':
+        return random.choice(COLOR_NAMES)
+    elif color_format == 'hex':
+        return '#' + ''.join((random.choice("0123456789ABCDEF") for _ in range(6)))
+    elif color_format == 'rgb':
+        return ', '.join(str(random.randrange(0, 255)) for _ in range(3))
+    else:
+        return f'{str(random.randrange(0, 360))}, {str(random.randrange(0, 100))}%,' \
+               f' {str(random.randrange(0, 100))}%'
