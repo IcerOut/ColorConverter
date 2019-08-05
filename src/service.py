@@ -83,11 +83,12 @@ def _transform_percentage(string: str) -> float:
     return val
 
 
-def _identify_and_create_object(user_input: str) -> Color:
+def _identify_and_create_object(user_input: str) -> (str, Color):
     """
     Identifies the data type of an input, converts it appropriately and creates the Color() object
     :param user_input: The input string from the input textbox
-    :return: A Color object that corresponds to the user input
+    :return: A tuple containing a string (the type detected) and a
+             Color object that corresponds to the user input
     :raises InvalidColorError: if the inputted color doesn't fit any of the available formats
     """
     result = Color()
@@ -97,21 +98,21 @@ def _identify_and_create_object(user_input: str) -> Color:
     if tmp in COLOR_NAMES:
         result = Color(tmp)
         print(f'\nDetected literal: {tmp}')
-        return result
+        return 'literal', result
 
     # Matches a hex color without the '#' sign
     hex_without_pound_sign_pattern = re.compile(r'[A-Fa-f0-9]{6}')
     if hex_without_pound_sign_pattern.match(user_input) and len(user_input) == 6:
         result.set_hex_l('#' + user_input.lower())
         print("\nDetected hex without '#'...")
-        return result
+        return 'hex', result
 
     # Matches a hex color with the '#' sign
     hex_with_pound_sign_pattern = re.compile(r'#[A-Fa-f0-9]{6}')
     if hex_with_pound_sign_pattern.match(user_input) and len(user_input) == 7:
         result.set_hex_l(user_input.lower())
         print("\nDetected hex with '#'...")
-        return result
+        return 'hex', result
 
     # Matches an RGB color (3x 1-3 digits numbers, separated by up to 2 of ',' and ' ')
     rgb_pattern = re.compile(r'(?:[0-9]{1,3}[, ]{1,2}){2}[0-9]{1,3}')
@@ -124,7 +125,7 @@ def _identify_and_create_object(user_input: str) -> Color:
                     'This looks like an RGB color but the values are not in the 0-255 range!')
         result.set_rgb((r_value / 255, g_value / 255, b_value / 255))
         print(f"\nDetected rgb: {user_input}")
-        return result
+        return 'rgb', result
 
     # Matches a HSL color (1x 1-3 digits number, then 2x percentages or numbers in the range 0-1)
     hsl_pattern = re.compile(r'[0-9]{1,3}(?:[, ]{1,2}(?:[01]\.[0-9]{1,2}|[0-9]{1,3}%)){2}')
@@ -149,7 +150,7 @@ def _identify_and_create_object(user_input: str) -> Color:
                     'percentages or in the 0-1 range!')
         result.set_hsl((h_value / 360, s_value, l_value))
         print(f"\nDetected hsl: {user_input}")
-        return result
+        return 'hsl', result
 
     raise InvalidColorError("The input doesn't fit any of the known color patterns!")
 
@@ -164,14 +165,27 @@ def convert(user_input: str) -> ConvertedColor:
     # Strips left and right spacing from the user input
     user_input = user_input.lstrip().rstrip()
 
-    color = _identify_and_create_object(user_input)
+    original, color = _identify_and_create_object(user_input)
 
     name_value = _format_name(color.get_web()) if not color.get_web().startswith('#') else None
     hex_value = color.get_hex_l().upper()
-    rgb_value = ', '.join([str(int(nr * 255)) for nr in color.get_rgb()])
-    hsl_value = ', '.join([str(int(color.get_hsl()[0] * 360)),
-                           str(int(round(color.get_hsl()[1], 2) * 100)) + '%',
-                           str(int(round(color.get_hsl()[2], 2) * 100)) + '%'])
+    if original == 'rgb':
+        user_input = _replace_separators(user_input)
+        # str(int(x)) for rounding
+        rgb_value = ', '.join([str(int(val)) for val in user_input.split('*')])
+    else:
+        rgb_value = ', '.join([str(int(nr * 255)) for nr in color.get_rgb()])
+
+    if original == 'hsl':
+        user_input = _replace_separators(user_input)
+        pieces = user_input.split('*')
+        hsl_value = ', '.join(
+                [str(int(pieces[0])), str(int(_transform_percentage(pieces[1]) * 100)) + '%',
+                 str(int(_transform_percentage(pieces[2]) * 100)) + '%'])
+    else:
+        hsl_value = ', '.join([str(int(color.get_hsl()[0] * 360)),
+                               str(int(round(color.get_hsl()[1], 2) * 100)) + '%',
+                               str(int(round(color.get_hsl()[2], 2) * 100)) + '%'])
 
     return ConvertedColor(name_value, hex_value, rgb_value, hsl_value)
 

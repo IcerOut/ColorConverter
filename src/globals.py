@@ -19,7 +19,6 @@ DISCORD_TEXTBOX = '#323539'
 
 EMPTY_CONVERSION = '...'
 
-# TODO: Fix rounding error
 # TODO: Generate complement of current color button
 # TODO: Language selection
 # TODO: Menu bar (change language, exit, help, about, clear input, actions)
