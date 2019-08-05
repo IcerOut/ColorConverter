@@ -32,13 +32,14 @@ class GUI:
 
         #
         # Input TextBox
-        self.input_value = tk.StringVar(self.master)
-        self.input_value.set('')
+        self.input_value = tk.StringVar(self.master, value='Enter a color...')
         self.input_textbox = tk.Entry(self.master, textvariable=self.input_value,
                                       font=('Verdana', 36), width=15, fg=DISCORD_LIGHT,
                                       bg=DISCORD_TEXTBOX, justify='center')
         self.input_textbox.grid(row=0, column=0, columnspan=2)
-        self.old_input = ''
+        self.old_input = 'Enter a color...'
+        self.input_textbox.bind('<FocusIn>', self._on_entry_click)
+        self.input_textbox.bind('<FocusOut>', self._on_focusout)
 
         #
         # Name output
@@ -100,6 +101,29 @@ class GUI:
         Gets a random color and places it in the input entry box
         """
         self.input_value.set(random_color())
+    def _on_entry_click(self, event):
+        """
+        Handles the entry click in the input entry box
+        Clears the default text and sets the color to normal
+        :param event: The event returned by the bind
+        """
+        # Binded to <FocusIn> for self.input_textbox
+        if self.input_value.get() == 'Enter a color...':
+            print('Faded out text.')
+            self.input_value.set('')
+            self.input_textbox.configure(fg=DISCORD_LIGHT)
+
+    def _on_focusout(self, event):
+        """
+        Handles the click out of the input entry box
+        Sets the default text and sets the color to faded out
+        :param event: The event returned by the bind
+        """
+        # Binded to <FocusOut> for self.input_textbox
+        if self.input_value.get() == '':
+            print('Faded in text.')
+            self.input_value.set('Enter a color...')
+            self.input_textbox.configure(fg=DISCORD_LIGHT_FADED)
     def continuous_convert(self) -> None:
         """
         Continuously monitors the input textbox and dropdown for changes (every 0.5 seconds)
@@ -107,6 +131,13 @@ class GUI:
         """
         user_input = self.input_value.get()
         if user_input != self.old_input:
+        if not user_input:
+            self.name_value.set(EMPTY_CONVERSION)
+            self.hex_value.set(EMPTY_CONVERSION)
+            self.rgb_value.set(EMPTY_CONVERSION)
+            self.hsl_value.set(EMPTY_CONVERSION)
+            self.color_display.configure(bg=DISCORD_DARK)
+        if user_input != self.old_input and user_input != 'Enter a color...' and user_input:
             self.old_input = user_input
             print('Change detected, attempting conversion...', end='')
             try:
@@ -115,6 +146,7 @@ class GUI:
                 self.hex_value.set(new_color.hex)
                 self.rgb_value.set(new_color.rgb)
                 self.hsl_value.set(new_color.hsl)
+                self.color_display.configure(bg=new_color.hex)
             except ValueError:
                 print(' Invalid number or decimal entered.')
             except InvalidColorError:
