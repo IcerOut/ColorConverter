@@ -104,14 +104,14 @@ def _identify_and_create_object(user_input: str) -> (str, Color):
     hex_without_pound_sign_pattern = re.compile(r'[A-Fa-f0-9]{6}')
     if hex_without_pound_sign_pattern.match(user_input) and len(user_input) == 6:
         result.set_hex_l('#' + user_input.lower())
-        print("\nDetected hex without '#'...")
+        print(f"\nDetected hex without '#': {user_input.upper()}")
         return 'hex', result
 
     # Matches a hex color with the '#' sign
     hex_with_pound_sign_pattern = re.compile(r'#[A-Fa-f0-9]{6}')
     if hex_with_pound_sign_pattern.match(user_input) and len(user_input) == 7:
         result.set_hex_l(user_input.lower())
-        print("\nDetected hex with '#'...")
+        print(f"\nDetected hex with '#': {user_input.upper()}")
         return 'hex', result
 
     # Matches an RGB color (3x 1-3 digits numbers, separated by up to 2 of ',' and ' ')
