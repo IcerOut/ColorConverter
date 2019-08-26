@@ -124,6 +124,40 @@ class GUI:
                                                     activebackground=DISCORD_DARK_HOVER)
         self.complementary_color_button.grid(row=0, column=1)
 
+        #
+        # Menu Bar
+        self.menu_bar = tk.Menu(self.master, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+
+        self.file_menu = tk.Menu(self.menu_bar, tearoff=0, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+
+        self.language_menu = tk.Menu(self.file_menu, tearoff=0, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.language_menu.add_command(label='English', command=lambda: change_language('en'), background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.language_menu.add_command(label='Română', command=lambda: change_language('ro'), background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.language_menu.add_command(label='Français', command=lambda: change_language('fr'), background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+
+        self.file_menu.add_cascade(label=_('Change Language (requires restart)'),
+                                   menu=self.language_menu, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.file_menu.add_command(label='Exit', command=self.master.quit, background=DISCORD_DARK,
+                                   foreground=DISCORD_LIGHT, activeforeground='white',
+                                   activebackground=DISCORD_DARK_HOVER)
+        self.menu_bar.add_cascade(label=_('File'), menu=self.file_menu, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+
+        self.edit_menu = tk.Menu(self.menu_bar, tearoff=0, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.edit_menu.add_command(label=_('Clear input'),
+                                   command=self._clear_input, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.edit_menu.add_separator()
+        self.edit_menu.add_command(label=_('Generate random'), command=self._generate_random_color, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.edit_menu.add_command(label=_('Generate complement'),
+                                   command=self._generate_complementary_color, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.menu_bar.add_cascade(label=_('Edit'), menu=self.edit_menu, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+
+        self.help_menu = tk.Menu(self.menu_bar, tearoff=0, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.help_menu.add_command(label=_('Show help'), command=lambda: self._handle_f1(0), background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.help_menu.add_command(label=_('About'), command=None, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)  # TODO: About command
+        self.menu_bar.add_cascade(label=_('Help'), menu=self.help_menu, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+
+        self.master.config(menu=self.menu_bar)
+
         # Initial call of the function. Afterwards it will keep calling itself every 0.5 seconds
         self.continuous_convert()
 
@@ -139,6 +173,14 @@ class GUI:
         self.color_display.grid_columnconfigure(1, weight=1)
         notification.grid(row=1, column=0, sticky='s')
         notification.after(2000, lambda: notification.destroy())
+
+    def _clear_input(self) -> None:
+        self.input_value.set(_('Enter a color...'))
+        self.name_value.set(EMPTY_CONVERSION)
+        self.hex_value.set(EMPTY_CONVERSION)
+        self.rgb_value.set(EMPTY_CONVERSION)
+        self.hsl_value.set(EMPTY_CONVERSION)
+        self.color_display.configure(bg=DISCORD_DARK)
 
     def _copy_result_to_clipboard(self, event) -> None:
         widget_to_clip = {self.name_output: self.name_value.get(),
