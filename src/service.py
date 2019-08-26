@@ -9,6 +9,7 @@ import re
 from collections import namedtuple
 
 from colour import Color
+from configupdater import ConfigUpdater
 
 from src.exceptions import InvalidColorError
 
@@ -195,16 +196,22 @@ def random_color() -> str:
     Returns a random color (in any of the 4 formats)
     :return: A random color as a string
     """
-    color_format = random.choice(('name', 'hex', 'rgb', 'hsl'))
+    color_format = random.choice(['name'] * 3 + ['hex'] * 3 + ['rgb'] * 2 + ['hsl'] * 2)
     if color_format == 'name':
-        return random.choice(COLOR_NAMES)
+        color = random.choice(COLOR_NAMES)
+        return random.choice([_format_name(color)] * 6 + [color] * 3 + [color.upper()] * 1)
     elif color_format == 'hex':
-        return '#' + ''.join((random.choice("0123456789ABCDEF") for _ in range(6)))
+        return '#' * random.choice([1] * 7 + [0] * 3) + ''.join(
+                (random.choice("0123456789ABCDEF") for _ in range(6)))
     elif color_format == 'rgb':
-        return ', '.join(str(random.randrange(0, 255)) for _ in range(3))
+        sep = random.choice([', '] * 5 + [','] * 3 + [' '] * 2)
+        return sep.join(str(random.randrange(0, 255)) for _ in range(3))
     else:
-        return f'{str(random.randrange(0, 360))}, {str(random.randrange(0, 100))}%,' \
-               f' {str(random.randrange(0, 100))}%'
+        sep = random.choice([', '] * 5 + [','] * 3 + [' '] * 2)
+        return str(random.randrange(0, 360)) + sep + random.choice(
+            [str(random.randrange(0, 100)) + '%'] * 6 + [
+                str(round(random.uniform(0, 1), 2))] * 4) + sep + random.choice(
+            [str(random.randrange(0, 100)) + '%'] * 6 + [str(round(random.uniform(0, 1), 2))] * 4)
 
 
 def complementary_color(hsl: str) -> str:
@@ -217,3 +224,14 @@ def complementary_color(hsl: str) -> str:
     hue = int(pieces[0])
     hue = (hue + 180) % 360  # The color 180 degrees apart is the complement
     return f'{str(hue)}, {pieces[1]}, {pieces[2]}'
+
+
+def change_language(new_language: str) -> None:
+    """
+    Updates the language in the config file
+    :param new_language: The new language code. Can be any of 'en', 'ro' and 'fr'
+    """
+    updater = ConfigUpdater()
+    updater.read('settings.config')
+    updater['APPLICATION_SETTINGS']['language'].value = new_language
+    updater.update_file()

@@ -10,7 +10,7 @@ from tkinter import messagebox
 from src.exceptions import InvalidColorError
 from src.globals import APP_TITLE, DISCORD_DARK, DISCORD_DARK_HOVER, DISCORD_LIGHT, \
     DISCORD_LIGHT_FADED, DISCORD_TEXTBOX, EMPTY_CONVERSION
-from src.service import complementary_color, convert, random_color
+from src.service import change_language, complementary_color, convert, random_color
 
 
 class GUI:
@@ -18,8 +18,10 @@ class GUI:
     The class responsible for the GUI and all of its associated functions
     """
 
-    def __init__(self, master):
+    def __init__(self, master, lang_func):
         self.master = master
+        _ = lang_func
+
         self.master.title(APP_TITLE)
         self.master.configure(bg=DISCORD_DARK)
 
@@ -37,19 +39,19 @@ class GUI:
 
         #
         # Input TextBox
-        self.input_value = tk.StringVar(self.master, value='Enter a color...')
+        self.input_value = tk.StringVar(self.master, value=_('Enter a color...'))
         self.input_textbox = tk.Entry(self.master, textvariable=self.input_value,
                                       font=('Verdana', 36), width=15, justify='center',
                                       fg=DISCORD_LIGHT_FADED, bg=DISCORD_TEXTBOX,
                                       insertbackground=DISCORD_LIGHT)
         self.input_textbox.grid(row=0, column=0, columnspan=2)
-        self.old_input = 'Enter a color...'
+        self.old_input = _('Enter a color...')
         self.input_textbox.bind('<FocusIn>', self._on_entry_click)
         self.input_textbox.bind('<FocusOut>', self._on_focusout)
 
         #
         # Name output
-        self.name_label = tk.Label(self.master, text='Name: ', font=('Verdana', 24),
+        self.name_label = tk.Label(self.master, text=_('Name: '), font=('Verdana', 24),
                                    fg=DISCORD_LIGHT, bg=DISCORD_DARK)
         self.name_label.grid(row=1, column=0)
         self.name_value = tk.StringVar(self.master, value=EMPTY_CONVERSION)
@@ -60,7 +62,7 @@ class GUI:
 
         #
         # Hex output
-        self.hex_label = tk.Label(self.master, text='Hex: ', font=('Verdana', 24),
+        self.hex_label = tk.Label(self.master, text=_('Hex: '), font=('Verdana', 24),
                                   fg=DISCORD_LIGHT, bg=DISCORD_DARK)
         self.hex_label.grid(row=2, column=0)
         self.hex_value = tk.StringVar(self.master, value=EMPTY_CONVERSION)
@@ -71,7 +73,7 @@ class GUI:
 
         #
         # RGB output
-        self.rgb_label = tk.Label(self.master, text='RGB: ', font=('Verdana', 24),
+        self.rgb_label = tk.Label(self.master, text=_('RGB: '), font=('Verdana', 24),
                                   fg=DISCORD_LIGHT, bg=DISCORD_DARK)
         self.rgb_label.grid(row=3, column=0)
         self.rgb_value = tk.StringVar(self.master, value=EMPTY_CONVERSION)
@@ -82,7 +84,7 @@ class GUI:
 
         #
         # HSL output
-        self.hsl_label = tk.Label(self.master, text='HSL: ', font=('Verdana', 24),
+        self.hsl_label = tk.Label(self.master, text=_('HSL: '), font=('Verdana', 24),
                                   fg=DISCORD_LIGHT, bg=DISCORD_DARK)
         self.hsl_label.grid(row=4, column=0)
         self.hsl_value = tk.StringVar(self.master, value=EMPTY_CONVERSION)
@@ -108,7 +110,7 @@ class GUI:
         #
         # Generate Random Color Button
         self.random_color_button = tk.Button(self.buttons_canvas, font=('Verdana', 16),
-                                             text='Generate random color',
+                                             text=_('Generate random color'),
                                              command=self._generate_random_color, bg=DISCORD_DARK,
                                              fg=DISCORD_LIGHT, activeforeground='white',
                                              activebackground=DISCORD_DARK_HOVER)
@@ -117,7 +119,7 @@ class GUI:
         #
         # Generate Complementary Color Button
         self.complementary_color_button = tk.Button(self.buttons_canvas, font=('Verdana', 16),
-                                                    text='Generate complementary color',
+                                                    text=_('Generate complementary color'),
                                                     command=self._generate_complementary_color,
                                                     bg=DISCORD_DARK, fg=DISCORD_LIGHT,
                                                     activeforeground='white',
@@ -187,15 +189,16 @@ class GUI:
                           self.hex_output: self.hex_value.get(),
                           self.rgb_output: f'rgb({self.rgb_value.get()})',
                           self.hsl_output: f'hsl({self.hsl_value.get()})'}
-        widget_to_text = {self.name_output: 'Name', self.hex_output: 'Hex', self.rgb_output: 'RGB',
-                          self.hsl_output: 'HSL'}
+        widget_to_text = {self.name_output: _('Name'), self.hex_output: _('Hex'),
+                          self.rgb_output: _('RGB'), self.hsl_output: _('HSL')}
         if self.name_value.get() == EMPTY_CONVERSION:
             print('Nothing to copy!')
-            self._floating_notification('Nothing to copy!', 'red')
+            self._floating_notification(_('Nothing to copy!'), 'red')
         else:
-            print(f"Text copied to clipboard from {widget_to_text[event.widget]} output.")
+            print("Text copied to clipboard from {0} output.".format(widget_to_text[event.widget]))
             self._floating_notification(
-                    f"Text copied to clipboard\n from {widget_to_text[event.widget]} output.",
+                    _("Text copied to clipboard\n from {0} output.").format(
+                            widget_to_text[event.widget]),
                     'blue')
             self.master.clipboard_clear()
             clip = widget_to_clip[event.widget]
@@ -215,7 +218,7 @@ class GUI:
         if self.hsl_value != EMPTY_CONVERSION:
             self.input_value.set(complementary_color(self.hsl_value.get()))
         else:
-            self._floating_notification("No color entered, cannot generate complement!", 'red')
+            self._floating_notification(_("No color entered, cannot generate complement!"), 'red')
 
     # <editor-fold desc="Event Handlers">
     def _on_entry_click(self, event):
@@ -225,7 +228,7 @@ class GUI:
         :param event: The event returned by the bind
         """
         # Binded to <FocusIn> for self.input_textbox
-        if self.input_value.get() == 'Enter a color...':
+        if self.input_value.get() == _('Enter a color...'):
             print('Faded out text.')
             self.input_value.set('')
             self.input_textbox.configure(fg=DISCORD_LIGHT)
@@ -239,7 +242,7 @@ class GUI:
         # Binded to <FocusOut> for self.input_textbox
         if self.input_value.get() == '':
             print('Faded in text.')
-            self.input_value.set('Enter a color...')
+            self.input_value.set(_('Enter a color...'))
             self.input_textbox.configure(fg=DISCORD_LIGHT_FADED)
 
     def _handle_left_click(self, event):
@@ -263,17 +266,18 @@ class GUI:
     @staticmethod
     def _handle_f1(event):
         # Binded to <F1> for the entire window
-        title = 'Help menu'
-        content = 'Using the top textbox, simply enter the desired colour. \n' \
-                  'The program will automatically detect the format and convert it to all ' \
-                  'other options, and display the given colour.\n' \
-                  '* For a normal colour, simply enter the name (with any case or formatting)\n' \
-                  "* For a hex colour, enter the long form, with or without the '#'\n" \
-                  '* For an RGB colour, enter the 3 numbers between 0 and 255, ' \
-                  'separated by spaces or commas\n' \
-                  '* For a HSL colour, enter the first number (between 0 and 360) and the two ' \
-                  "percentages (with a '%' sign or as a number between 0 and 1)\n" \
-                  'To copy one of the results, simply click on it.'
+        title = _('Help menu')
+        content = _('Using the top textbox, simply enter the desired colour. \n')
+        content += _('The program will automatically detect the format and convert it to all ')
+        content += _('other options, and display the given colour.\n')
+        content += _('* For a normal colour, simply enter the name (with any case or formatting)\n')
+        content += _("* For a hex colour, enter the long form, with or without the '#'\n")
+        content += _('* For an RGB colour, enter the 3 numbers between 0 and 255, ')
+        content += _('separated by spaces or commas\n')
+        content += _('* For a HSL colour, enter the first number (between 0 and 360) and the two ')
+        content += _("percentages (with a '%' sign or as a number between 0 and 1)\n")
+        content += _('To copy one of the results, simply click on it.')
+
         messagebox.showinfo(title, content)
 
     # </editor-fold>
@@ -290,7 +294,7 @@ class GUI:
             self.rgb_value.set(EMPTY_CONVERSION)
             self.hsl_value.set(EMPTY_CONVERSION)
             self.color_display.configure(bg=DISCORD_DARK)
-        if user_input != self.old_input and user_input != 'Enter a color...' and user_input:
+        if user_input != self.old_input and user_input != _('Enter a color...') and user_input:
             self.old_input = user_input
             print('Change detected, attempting conversion...', end='')
             try:

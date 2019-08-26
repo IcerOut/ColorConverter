@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2019-08-09 13:33+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: src/gui.py:40 src/gui.py:46 src/gui.py:187 src/gui.py:201 src/gui.py:254
+msgid "Enter a color..."
+msgstr "Introduceți culoarea..."
+
+#: src/gui.py:52
+msgid "Name: "
+msgstr "Nume:"
+
+#: src/gui.py:63
+msgid "Hex: "
+msgstr "Hex:"
+
+#: src/gui.py:74
+msgid "RGB: "
+msgstr "RGB:"
+
+#: src/gui.py:85
+msgid "HSL: "
+msgstr "HSL:"
+
+#: src/gui.py:111
+msgid "Generate random color"
+msgstr "Generează culoare aleatoare"
+
+#: src/gui.py:120
+msgid "Generate complementary color"
+msgstr "Generează culoare complementară"
+
+#: src/gui.py:148
+msgid "Hex"
+msgstr "Hex"
+
+#: src/gui.py:148
+msgid "Name"
+msgstr "Nume"
+
+#: src/gui.py:149
+msgid "HSL"
+msgstr "HSL"
+
+#: src/gui.py:149
+msgid "RGB"
+msgstr "RGB"
+
+#: src/gui.py:151 src/gui.py:152
+msgid "Nothing to copy!"
+msgstr "Nu există nimic de copiat!"
+
+#: src/gui.py:156
+msgid ""
+"Text copied to clipboard\n"
+" from {0} output."
+msgstr "Text copiat în clipboard\n"
+" din câmpul {0}."
+
+#: src/gui.py:177
+msgid "No color entered, cannot generate complement!"
+msgstr "Nicio culoare introdusă, nu se poate genera complementul!"
+
+#: src/gui.py:225
+msgid "Help menu"
+msgstr "Meniul ajutor"
+
+#: src/gui.py:226
+msgid ""
+"Using the top textbox, simply enter the desired colour. \n"
+msgstr "Folosind caseta text de sus, introduceți culoarea dorită. \n"
+
+#: src/gui.py:227
+msgid "The program will automatically detect the format and convert it to all "
+msgstr "Programul va detecta automat formatul, o va converti în toate "
+
+#: src/gui.py:228
+msgid ""
+"other options, and display the given colour.\n"
+msgstr "celelalte opțiuni, și o va afișa.\n"
+
+#: src/gui.py:229
+msgid ""
+"* For a normal colour, simply enter the name (with any case or formatting)\n"
+msgstr "* Pentru o culoare normală, introduceți doar numele (în engleză)\n"
+
+#: src/gui.py:230
+msgid ""
+"* For a hex colour, enter the long form, with or without the '#'\n"
+msgstr "* Pentru o culoare Hex, introduceți formatul lung, cu sau fără '#'\n"
+
+#: src/gui.py:231
+msgid "* For an RGB colour, enter the 3 numbers between 0 and 255, "
+msgstr "* Pentru o culoare RGB, introduceți cele 3 numere între 0 și 255, "
+
+#: src/gui.py:232
+msgid ""
+"separated by spaces or commas\n"
+msgstr " separate de spațiu sau virgulă\n"
+
+#: src/gui.py:233
+msgid "* For a HSL colour, enter the first number (between 0 and 360) and the two "
+msgstr ""
+"* Pentru o culoare HSL, introduceți primul număr (între 0 și 360), apoi cele "
+"2 "
+
+#: src/gui.py:234
+msgid ""
+"percentages (with a '%' sign or as a number between 0 and 1)\n"
+msgstr "procente (cu semnul '%' sau ca un număr între 0 și 1)\n"
+
+#: src/gui.py:235
+msgid "To copy one of the results, simply click on it."
+msgstr "Pentru a copia un rezultat, dați click pe el."
+

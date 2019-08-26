@@ -1,0 +1,107 @@
+#: src/gui.py:42 src/gui.py:48 src/gui.py:189 src/gui.py:203 src/gui.py:255
+msgid "Enter a color..."
+msgstr ""
+
+#: src/gui.py:54
+msgid "Name: "
+msgstr "Nom: "
+
+#: src/gui.py:65
+msgid "Hex: "
+msgstr ""
+
+#: src/gui.py:76
+msgid "RGB: "
+msgstr ""
+
+#: src/gui.py:87
+msgid "HSL: "
+msgstr ""
+
+#: src/gui.py:113
+msgid "Generate random color"
+msgstr ""
+
+#: src/gui.py:122
+msgid "Generate complementary color"
+msgstr ""
+
+#: src/gui.py:150
+msgid "Hex"
+msgstr ""
+
+#: src/gui.py:150
+msgid "Name"
+msgstr ""
+
+#: src/gui.py:151
+msgid "HSL"
+msgstr ""
+
+#: src/gui.py:151
+msgid "RGB"
+msgstr ""
+
+#: src/gui.py:153 src/gui.py:154
+msgid "Nothing to copy!"
+msgstr ""
+
+#: src/gui.py:158
+msgid ""
+"Text copied to clipboard\n"
+" from {0} output."
+msgstr ""
+
+#: src/gui.py:179
+msgid "No color entered, cannot generate complement!"
+msgstr ""
+
+#: src/gui.py:227
+msgid "Help menu"
+msgstr ""
+
+#: src/gui.py:228
+msgid ""
+"Using the top textbox, simply enter the desired colour. \n"
+msgstr ""
+
+#: src/gui.py:229
+msgid "The program will automatically detect the format and convert it to all "
+msgstr ""
+
+#: src/gui.py:230
+msgid ""
+"other options, and display the given colour.\n"
+msgstr ""
+
+#: src/gui.py:231
+msgid ""
+"* For a normal colour, simply enter the name (with any case or formatting)\n"
+msgstr ""
+
+#: src/gui.py:232
+msgid ""
+"* For a hex colour, enter the long form, with or without the '#'\n"
+msgstr ""
+
+#: src/gui.py:233
+msgid "* For an RGB colour, enter the 3 numbers between 0 and 255, "
+msgstr ""
+
+#: src/gui.py:234
+msgid ""
+"separated by spaces or commas\n"
+msgstr ""
+
+#: src/gui.py:235
+msgid "* For a HSL colour, enter the first number (between 0 and 360) and the two "
+msgstr ""
+
+#: src/gui.py:236
+msgid ""
+"percentages (with a '%' sign or as a number between 0 and 1)\n"
+msgstr ""
+
+#: src/gui.py:237
+msgid "To copy one of the results, simply click on it."
+msgstr ""
