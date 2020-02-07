@@ -9,8 +9,8 @@ import configparser
 import gettext
 from collections import Callable
 
-import src.globals as global_var
-from src.globals import CONFIG_FILE
+import globals as global_var
+from globals import CONFIG_FILE
 
 
 def read_config() -> None:

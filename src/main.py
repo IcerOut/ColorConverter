@@ -6,9 +6,9 @@ ColorConverter
 """
 import tkinter as tk
 
-import src.globals as global_var
-from src.gui import GUI
-from src.startup import read_config, get_language_func
+import globals as global_var
+from gui import GUI
+from startup import read_config, get_language_func
 
 if __name__ == '__main__':
     read_config()

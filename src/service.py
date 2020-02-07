@@ -11,7 +11,7 @@ from collections import namedtuple
 from colour import Color
 from configupdater import ConfigUpdater
 
-from src.exceptions import InvalidColorError
+from exceptions import InvalidColorError
 
 ConvertedColor = namedtuple('ConvertedColor', 'name hex rgb hsl')
 

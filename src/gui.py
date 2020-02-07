@@ -7,10 +7,10 @@ ColorConverter
 import tkinter as tk
 from tkinter import messagebox
 
-from src.exceptions import InvalidColorError
-from src.globals import APP_TITLE, DISCORD_DARK, DISCORD_DARK_HOVER, DISCORD_LIGHT, \
+from exceptions import InvalidColorError
+from globals import APP_TITLE, DISCORD_DARK, DISCORD_DARK_HOVER, DISCORD_LIGHT, \
     DISCORD_LIGHT_FADED, DISCORD_TEXTBOX, EMPTY_CONVERSION
-from src.service import change_language, complementary_color, convert, random_color
+from service import change_language, complementary_color, convert, random_color
 
 
 class GUI:
