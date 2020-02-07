@@ -19,6 +19,7 @@ class GUI:
     """
 
     def __init__(self, master, lang_func):
+        global _
         self.master = master
         _ = lang_func
 
@@ -128,35 +129,71 @@ class GUI:
 
         #
         # Menu Bar
-        self.menu_bar = tk.Menu(self.master, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.menu_bar = tk.Menu(self.master, background=DISCORD_DARK, foreground=DISCORD_LIGHT,
+                                activeforeground='white', activebackground=DISCORD_DARK_HOVER)
 
-        self.file_menu = tk.Menu(self.menu_bar, tearoff=0, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.file_menu = tk.Menu(self.menu_bar, tearoff=0, background=DISCORD_DARK,
+                                 foreground=DISCORD_LIGHT, activeforeground='white',
+                                 activebackground=DISCORD_DARK_HOVER)
 
-        self.language_menu = tk.Menu(self.file_menu, tearoff=0, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
-        self.language_menu.add_command(label='English', command=lambda: change_language('en'), background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
-        self.language_menu.add_command(label='Română', command=lambda: change_language('ro'), background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
-        self.language_menu.add_command(label='Français', command=lambda: change_language('fr'), background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.language_menu = tk.Menu(self.file_menu, tearoff=0, background=DISCORD_DARK,
+                                     foreground=DISCORD_LIGHT, activeforeground='white',
+                                     activebackground=DISCORD_DARK_HOVER)
+        self.language_menu.add_command(label='English', command=lambda: change_language('en'),
+                                       background=DISCORD_DARK, foreground=DISCORD_LIGHT,
+                                       activeforeground='white',
+                                       activebackground=DISCORD_DARK_HOVER)
+        self.language_menu.add_command(label='Română', command=lambda: change_language('ro'),
+                                       background=DISCORD_DARK, foreground=DISCORD_LIGHT,
+                                       activeforeground='white',
+                                       activebackground=DISCORD_DARK_HOVER)
+        self.language_menu.add_command(label='Français', command=lambda: change_language('fr'),
+                                       background=DISCORD_DARK, foreground=DISCORD_LIGHT,
+                                       activeforeground='white',
+                                       activebackground=DISCORD_DARK_HOVER)
 
         self.file_menu.add_cascade(label=_('Change Language (requires restart)'),
-                                   menu=self.language_menu, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+                                   menu=self.language_menu, background=DISCORD_DARK,
+                                   foreground=DISCORD_LIGHT, activeforeground='white',
+                                   activebackground=DISCORD_DARK_HOVER)
         self.file_menu.add_command(label='Exit', command=self.master.quit, background=DISCORD_DARK,
                                    foreground=DISCORD_LIGHT, activeforeground='white',
                                    activebackground=DISCORD_DARK_HOVER)
-        self.menu_bar.add_cascade(label=_('File'), menu=self.file_menu, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.menu_bar.add_cascade(label=_('File'), menu=self.file_menu, background=DISCORD_DARK,
+                                  foreground=DISCORD_LIGHT, activeforeground='white',
+                                  activebackground=DISCORD_DARK_HOVER)
 
-        self.edit_menu = tk.Menu(self.menu_bar, tearoff=0, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.edit_menu = tk.Menu(self.menu_bar, tearoff=0, background=DISCORD_DARK,
+                                 foreground=DISCORD_LIGHT, activeforeground='white',
+                                 activebackground=DISCORD_DARK_HOVER)
         self.edit_menu.add_command(label=_('Clear input'),
-                                   command=self._clear_input, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+                                   command=self._clear_input, background=DISCORD_DARK,
+                                   foreground=DISCORD_LIGHT, activeforeground='white',
+                                   activebackground=DISCORD_DARK_HOVER)
         self.edit_menu.add_separator()
-        self.edit_menu.add_command(label=_('Generate random'), command=self._generate_random_color, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.edit_menu.add_command(label=_('Generate random'), command=self._generate_random_color,
+                                   background=DISCORD_DARK, foreground=DISCORD_LIGHT,
+                                   activeforeground='white', activebackground=DISCORD_DARK_HOVER)
         self.edit_menu.add_command(label=_('Generate complement'),
-                                   command=self._generate_complementary_color, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
-        self.menu_bar.add_cascade(label=_('Edit'), menu=self.edit_menu, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+                                   command=self._generate_complementary_color,
+                                   background=DISCORD_DARK, foreground=DISCORD_LIGHT,
+                                   activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.menu_bar.add_cascade(label=_('Edit'), menu=self.edit_menu, background=DISCORD_DARK,
+                                  foreground=DISCORD_LIGHT, activeforeground='white',
+                                  activebackground=DISCORD_DARK_HOVER)
 
-        self.help_menu = tk.Menu(self.menu_bar, tearoff=0, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
-        self.help_menu.add_command(label=_('Show help'), command=lambda: self._handle_f1(0), background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
-        self.help_menu.add_command(label=_('About'), command=None, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)  # TODO: About command
-        self.menu_bar.add_cascade(label=_('Help'), menu=self.help_menu, background=DISCORD_DARK, foreground=DISCORD_LIGHT, activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.help_menu = tk.Menu(self.menu_bar, tearoff=0, background=DISCORD_DARK,
+                                 foreground=DISCORD_LIGHT, activeforeground='white',
+                                 activebackground=DISCORD_DARK_HOVER)
+        self.help_menu.add_command(label=_('Show help'), command=lambda: self._handle_f1(0),
+                                   background=DISCORD_DARK, foreground=DISCORD_LIGHT,
+                                   activeforeground='white', activebackground=DISCORD_DARK_HOVER)
+        self.help_menu.add_command(label=_('About'), command=None, background=DISCORD_DARK,
+                                   foreground=DISCORD_LIGHT, activeforeground='white',
+                                   activebackground=DISCORD_DARK_HOVER)  # TODO: About command
+        self.menu_bar.add_cascade(label=_('Help'), menu=self.help_menu, background=DISCORD_DARK,
+                                  foreground=DISCORD_LIGHT, activeforeground='white',
+                                  activebackground=DISCORD_DARK_HOVER)
 
         self.master.config(menu=self.menu_bar)
 
