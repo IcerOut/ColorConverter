@@ -16,7 +16,7 @@ ColorConverter is a desktop application that converts between the various color 
 
 ## Usage
 
-Run using the src/main.py file (python main.py from the CLI).
+Run using the src/main.py file (`python main.py` from the CLI).
 The input box takes input in one of the following formats:
 * X11 standard color name (with or without spaces, any capitalization)
 * Long hex code ( '#' is optional)
@@ -27,7 +27,7 @@ The input box takes input in one of the following formats:
 
 Clicking the 'Generate random color' button will produce various valid inputs (in any of the input formats).
 ![Example input](https://i.imgur.com/hEDHyY9.png)
-Clicking on any of the output fields copies the content of that field to the clipboard (for the RGB and HSL outputs, it copies with the correct CSS function syntax, ready to use.
+Clicking on any of the output fields copies the content of that field to the clipboard. For the RGB and HSL outputs, it copies  the correct CSS function, ready to use (eg. rgb(115, 24, 36) or hsl(293, 54%, 68%)).
 ![Clipboard example](https://i.imgur.com/IUlgS6f.png)
 The 'Generate complementary color' will generate the complement of the currently entered color.
 
